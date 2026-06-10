@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RexoAI® — Siti web, social, contenuti AI e advertising che porta clienti</title>
+<meta name="description" content="RexoAI costruisce siti che convertono, gestisce i social, genera contenuti con l'AI e porta clienti con Google Ads e Meta Ads. Un solo partner, risultati misurabili.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     REXOAI® — identità monocroma.
+     Bianco e nero. La tipografia È il brand.
+     ============================================================ */
+  :root{
+    --bg: #070707;
+    --bg-raise: #0E0E0E;
+    --bg-card: #121212;
+    --line: rgba(255,255,255,.10);
+    --line-strong: rgba(255,255,255,.22);
+    --white: #FFFFFF;
+    --text: #F2F2F2;
+    --text-dim: #9B9B9B;
+    --radius: 14px;
+    --maxw: 1180px;
+    --ease: cubic-bezier(.22,.8,.3,1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  html.lock{ overflow:hidden; }
+  html.has-cursor, html.has-cursor *{ cursor:none; }
+  body{
+    font-family:'Poppins', system-ui, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--white); color:#000; }
+
+  .wrap{ width:min(var(--maxw), 92%); margin:0 auto; }
+  section{ padding:110px 0; position:relative; scroll-margin-top:76px; }
+  a{ color:inherit; text-decoration:none; }
+  .lead{ color:var(--text-dim); max-width:58ch; }
+
+  /* ---------- Grana (texture da stampa, monocroma) ---------- */
+  body::after{
+    content:""; position:fixed; inset:0; z-index:998; pointer-events:none;
+    opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  }
+
+  /* ============================================================
+     INTRO — il sipario. Il wordmark si riempie da 0 a 100%,
+     poi il nero si alza e rivela il sito. Come l'apertura
+     di un video di presentazione.
+     ============================================================ */
+  #intro{
+    position:fixed; inset:0; z-index:2000;
+    background:var(--bg);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:26px;
+    transition:transform .85s var(--ease);
+  }
+  #intro.done{ transform:translateY(-101%); }
+  .intro-word{
+    position:relative;
+    font-size:clamp(3rem, 13vw, 10rem); font-weight:900;
+    text-transform:uppercase; letter-spacing:-.05em; line-height:1;
+    user-select:none;
+  }
+  .intro-outline{ color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,.35); }
+  .intro-fill{
+    position:absolute; inset:0; color:var(--white);
+    clip-path:inset(0 100% 0 0);
+  }
+  .intro-meta{
+    display:flex; gap:18px; align-items:center;
+    font-size:.72rem; font-weight:700; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--text-dim);
+  }
+  .intro-meta b{ color:var(--white); font-variant-numeric:tabular-nums; min-width:4ch; text-align:right; }
+
+  /* ---------- Barra di avanzamento scroll ---------- */
+  #progress{
+    position:fixed; top:0; left:0; height:3px; width:0;
+    background:var(--white); z-index:1000;
+  }
+
+  /* ---------- Cursore custom (si inverte sulle sezioni bianche) ---------- */
+  #cursor, #cursor-ring{
+    position:fixed; top:0; left:0; border-radius:50%;
+    pointer-events:none; z-index:999;
+    mix-blend-mode:difference;
+    transform:translate(-50%,-50%);
+  }
+  #cursor{ width:10px; height:10px; background:#fff; }
+  #cursor-ring{
+    width:38px; height:38px; border:1px solid rgba(255,255,255,.8);
+    transition:width .25s var(--ease), height .25s var(--ease);
+  }
+  #cursor-ring.grow{ width:70px; height:70px; }
+
+  /* ---------- Identità tipografica ---------- */
+  .display{ text-transform:uppercase; font-weight:800; letter-spacing:-.03em; line-height:.95; }
+  .outline{ color:transparent; -webkit-text-stroke:2px var(--white); }
+  h2{
+    text-transform:uppercase; font-weight:800;
+    font-size:clamp(1.8rem, 4.2vw, 3rem);
+    letter-spacing:-.02em; line-height:1.04; margin-bottom:16px;
+  }
+  h3{ font-weight:700; line-height:1.2; letter-spacing:-.01em; }
+  .eyebrow{
+    display:block; font-size:.74rem; font-weight:600;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:var(--text-dim); margin-bottom:18px;
+  }
+  .eyebrow b{ color:var(--text); font-weight:700; }
+  .ghost{
+    position:absolute; top:46px; right:0;
+    font-size:clamp(6rem, 15vw, 12rem); font-weight:900; line-height:1;
+    color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.07);
+    pointer-events:none; user-select:none;
+  }
+  /* Asterisco che ruota — il segno ricorrente del brand */
+  .ast{
+    display:inline-block; font-style:normal;
+    animation:spin 7s linear infinite;
+    transform-origin:50% 52%;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  /* ---------- Animazioni 3D di base ---------- */
+  .fade{
+    opacity:0;
+    transform:perspective(1000px) rotateX(9deg) translateY(34px);
+    transform-origin:50% 100%;
+    transition:opacity .8s var(--ease), transform .8s var(--ease);
+    will-change:transform, opacity;
+  }
+  .fade.show{ opacity:1; transform:perspective(1000px) rotateX(0) translateY(0); }
+
+  [data-tilt]{
+    transform-style:preserve-3d;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  [data-tilt] > *{ transform:translateZ(18px); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .fade{ opacity:1; transform:none; transition:none; }
+    .panel, .panel::after, .scene-pivot, .step-num, .flip-inner,
+    .case-bar i, .marquee-track, .line span, .ast{ animation:none !important; transition:none !important; }
+    .panel{ transform:var(--order) !important; opacity:1 !important; }
+    .panel::after{ opacity:1 !important; }
+    .case-bar i{ width:var(--w) !important; }
+    .line span{ transform:none !important; }
+    #cursor, #cursor-ring, #intro{ display:none !important; }
+    .spot-reveal{ -webkit-mask-image:none !important; mask-image:none !important; }
+    .kin-line{ transform:none !important; }
+    .manifesto .w{ color:var(--text) !important; }
+  }
+
+  /* ---------- Navbar ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(7,7,7,.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:70px; }
+  .logo{ display:flex; align-items:center; gap:6px; font-weight:800; font-size:1.15rem; letter-spacing:.02em; text-transform:uppercase; }
+  .logo sup{ font-size:.55rem; color:var(--text-dim); }
+  .nav-right{ display:flex; align-items:center; gap:14px; }
+  .nav-burger{
+    display:none; width:42px; height:42px;
+    background:transparent; border:1px solid var(--line-strong); border-radius:10px;
+    cursor:pointer; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  }
+  .nav-burger span{
+    display:block; width:18px; height:2px; background:var(--white);
+    transition:transform .3s var(--ease), opacity .3s;
+  }
+  .nav-burger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2){ opacity:0; }
+  .nav-burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{ display:none; }
+  .nav-links{ display:flex; gap:26px; font-size:.78rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); }
+  .nav-links a{ position:relative; padding:4px 0; }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
+    background:var(--white); transform:scaleX(0); transform-origin:right;
+    transition:transform .35s var(--ease);
+  }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-links a:hover::after{ transform:scaleX(1); transform-origin:left; }
+  .btn{
+    display:inline-block; background:var(--white); color:#000;
+    font-weight:700; font-size:.82rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:12px 24px; border-radius:999px; border:none; cursor:pointer;
+    transition:box-shadow .15s ease;
+    will-change:transform;
+  }
+  .btn:hover{ box-shadow:0 10px 30px rgba(255,255,255,.18); }
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--line-strong); }
+  .btn-ghost:hover{ border-color:var(--white); box-shadow:none; }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding:96px 0 70px; position:relative; overflow:hidden; }
+  .hero::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(700px 380px at 70% 12%, rgba(255,255,255,.06), transparent 70%);
+  }
+  .hero h1{ font-size:clamp(3rem, 10vw, 8.2rem); margin-bottom:34px; }
+  .line{ display:block; overflow:hidden; }
+  .line span{
+    display:inline-block; transform:translateY(112%);
+    animation:rise 1s var(--ease) forwards;
+  }
+  /* Le righe partono quando il sipario dell'intro si è alzato */
+  .line:nth-child(1) span{ animation-delay:1.45s; }
+  .line:nth-child(2) span{ animation-delay:1.57s; }
+  .line:nth-child(3) span{ animation-delay:1.69s; }
+  @keyframes rise{ to{ transform:translateY(0); } }
+  .hero-sub{ display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center; }
+  .hero .lead{ font-size:1.06rem; margin-bottom:30px; }
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  /* ---------- Scena 3D "canali sparsi → strategia coordinata" ---------- */
+  .scene{
+    perspective:1300px; height:420px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center; position:relative;
+  }
+  .scene-stage{ will-change:transform; }
+  .scene-pivot{
+    position:relative; width:300px; height:330px;
+    transform-style:preserve-3d;
+    animation:pivot 18s ease-in-out infinite;
+  }
+  @keyframes pivot{
+    0%,100%{ transform:rotateX(14deg) rotateY(-14deg); }
+    50%    { transform:rotateX(10deg) rotateY(14deg); }
+  }
+  .panel{
+    position:absolute; left:0; top:0; width:300px; height:54px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 18px;
+    background:var(--bg-card); border:1px solid var(--line-strong);
+    border-radius:10px;
+    font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text);
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+    backface-visibility:hidden;
+    animation:assemble 9s cubic-bezier(.6,.05,.2,1) infinite;
+  }
+  .panel::after{
+    content:"✓"; font-weight:700; color:var(--white); opacity:0;
+    animation:check 9s ease infinite;
+  }
+  .panel:nth-child(1){ --order:translate3d(0,   0px, 40px);  --chaos:translate3d(-130px,-150px,140px) rotateX(38deg) rotateY(-30deg) rotateZ(-14deg); }
+  .panel:nth-child(2){ --order:translate3d(0,  68px, 20px);  --chaos:translate3d(150px,-90px,-90px)  rotateX(-26deg) rotateY(42deg) rotateZ(10deg); }
+  .panel:nth-child(3){ --order:translate3d(0, 136px,  0px);  --chaos:translate3d(-160px,60px,-130px) rotateX(20deg) rotateY(-46deg) rotateZ(16deg); }
+  .panel:nth-child(4){ --order:translate3d(0, 204px,-20px);  --chaos:translate3d(120px,150px,110px)  rotateX(-34deg) rotateY(24deg) rotateZ(-10deg); }
+  .panel:nth-child(5){ --order:translate3d(0, 272px,-40px);  --chaos:translate3d(20px,-40px,-170px)  rotateX(44deg) rotateY(-20deg) rotateZ(8deg); }
+  .panel:nth-child(1){ animation-delay:0s; }    .panel:nth-child(1)::after{ animation-delay:0s; }
+  .panel:nth-child(2){ animation-delay:.12s; }  .panel:nth-child(2)::after{ animation-delay:.12s; }
+  .panel:nth-child(3){ animation-delay:.24s; }  .panel:nth-child(3)::after{ animation-delay:.24s; }
+  .panel:nth-child(4){ animation-delay:.36s; }  .panel:nth-child(4)::after{ animation-delay:.36s; }
+  .panel:nth-child(5){ animation-delay:.48s; }  .panel:nth-child(5)::after{ animation-delay:.48s; }
+  @keyframes assemble{
+    0%, 12%  { transform:var(--chaos); opacity:.85; border-color:var(--line); }
+    34%, 78% { transform:var(--order); opacity:1;   border-color:var(--line-strong); }
+    96%,100% { transform:var(--chaos); opacity:.85; border-color:var(--line); }
+  }
+  @keyframes check{
+    0%, 30%  { opacity:0; transform:scale(.5); }
+    40%, 76% { opacity:1; transform:scale(1); }
+    92%,100% { opacity:0; transform:scale(.5); }
+  }
+  .scene-caption{
+    position:absolute; bottom:0;
+    font-size:.74rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--text-dim); text-align:center;
+  }
+  .scene-caption b{ color:var(--text); font-weight:700; }
+
+  /* ---------- Marquee ---------- */
+  .marquee{
+    overflow:hidden; white-space:nowrap;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:18px 0; user-select:none;
+  }
+  .marquee-track{ display:inline-flex; animation:scrollX 26s linear infinite; }
+  .marquee:hover .marquee-track{ animation-play-state:paused; }
+  .marquee span{
+    font-size:clamp(1.2rem, 2.6vw, 2rem); font-weight:800;
+    text-transform:uppercase; letter-spacing:-.01em;
+    padding:0 26px; flex-shrink:0;
+  }
+  .marquee span i{ font-style:normal; color:var(--text-dim); padding-right:52px; }
+  .marquee.inv{ background:var(--white); border-color:var(--white); }
+  .marquee.inv span{ color:#000; }
+  .marquee.inv span i{ color:rgba(0,0,0,.35); }
+  .marquee.hollow span{ color:transparent; -webkit-text-stroke:1.5px var(--white); }
+  .marquee.hollow span i{ -webkit-text-stroke:1.5px rgba(255,255,255,.3); }
+  .marquee.adj{ border:none; padding:10px 0; }
+  .marquee.adj span{ font-style:italic; font-weight:800; font-size:clamp(1rem, 2vw, 1.5rem); color:var(--text-dim); }
+  .marquee.adj span i{ font-style:normal; color:var(--line-strong); }
+  .marquee.adj .marquee-track{ animation-duration:20s; animation-direction:reverse; }
+  @keyframes scrollX{ to{ transform:translateX(-50%); } }
+
+  /* ============================================================
+     MANIFESTO — dichiarazione a tutto schermo.
+     Le parole si accendono una a una mentre scorri:
+     il testo si "stampa" sotto i tuoi occhi.
+     ============================================================ */
+  .manifesto{ padding:150px 0 90px; }
+  .manifesto p{
+    font-size:clamp(1.7rem, 4.6vw, 3.4rem);
+    font-weight:800; text-transform:uppercase;
+    letter-spacing:-.02em; line-height:1.18;
+    max-width:20ch;
+  }
+  .manifesto .w{ color:rgba(255,255,255,.13); transition:color .3s ease; }
+  .manifesto .w.on{ color:var(--white); }
+  .manifesto .w.dim.on{ color:var(--text-dim); }
+
+  /* ---------- Problema ---------- */
+  .problema{ background:var(--bg-raise); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .prob-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:44px; perspective:1200px; }
+  .prob-card{
+    background:var(--bg-card); border:1px solid var(--line);
+    border-radius:var(--radius); padding:28px;
+  }
+  .prob-card:hover{ border-color:var(--line-strong); box-shadow:0 24px 50px rgba(0,0,0,.5); }
+  .prob-card strong{ display:block; font-size:1.05rem; margin-bottom:8px; }
+  .prob-card p{ color:var(--text-dim); font-size:.94rem; }
+
+  /* ---------- Come lavoriamo ---------- */
+  .steps{ margin-top:48px; display:grid; perspective:900px; }
+  .step{
+    display:grid; grid-template-columns:90px 1fr; gap:24px;
+    padding:32px 0; border-bottom:1px solid var(--line);
+  }
+  .step:first-child{ border-top:1px solid var(--line); }
+  .step-num{
+    font-weight:900; font-size:2rem; color:transparent;
+    -webkit-text-stroke:1.5px var(--white);
+    font-variant-numeric:tabular-nums;
+    transform:rotateY(90deg); transform-origin:left center;
+    transition:transform .7s var(--ease) .25s;
+    will-change:transform;
+  }
+  .step.show .step-num{ transform:rotateY(0); }
+  .step h3{ font-size:1.15rem; margin-bottom:6px; text-transform:uppercase; letter-spacing:.02em; }
+  .step p{ color:var(--text-dim); font-size:.96rem; max-width:62ch; }
+  .step small{
+    display:block; margin-top:8px; color:var(--text);
+    font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  }
+
+  /* ---------- Servizi (flip card 3D) ---------- */
+  .servizi{ background:var(--bg-raise); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .serv-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:44px; }
+  .flip{ perspective:1100px; min-height:290px; cursor:pointer; }
+  .flip-inner{
+    position:relative; width:100%; height:100%; min-height:290px;
+    transform-style:preserve-3d;
+    transition:transform .7s var(--ease);
+  }
+  .flip:hover .flip-inner,
+  .flip.flipped .flip-inner,
+  .flip:focus-within .flip-inner{ transform:rotateY(180deg); }
+  .flip-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    background:var(--bg-card); border:1px solid var(--line);
+    border-radius:var(--radius); padding:32px;
+    display:flex; flex-direction:column;
+  }
+  .flip-front h3{ font-size:1.3rem; text-transform:uppercase; letter-spacing:.01em; margin-bottom:12px; }
+  .flip-front h3 b{ display:block; font-size:.7rem; font-weight:700; letter-spacing:.2em; color:var(--text-dim); margin-bottom:8px; }
+  .flip-front p{ color:var(--text-dim); font-size:.94rem; }
+  .flip-hint{
+    margin-top:auto; font-size:.7rem; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim);
+  }
+  .flip-back{
+    transform:rotateY(180deg);
+    border-color:var(--line-strong);
+    background:linear-gradient(145deg, #181818, #0D0D0D);
+  }
+  .flip-back h4{
+    font-size:.7rem; font-weight:700; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--text-dim); margin-bottom:16px;
+  }
+  .flip-back ul{ list-style:none; display:grid; gap:10px; font-size:.92rem; }
+  .flip-back li::before{ content:"— "; color:var(--text-dim); }
+
+  /* ---------- Case studies (sezione invertita) ---------- */
+  .invert{ background:var(--white); color:#000; }
+  .invert .eyebrow{ color:rgba(0,0,0,.45); }
+  .invert .eyebrow b{ color:#000; }
+  .invert .lead{ color:rgba(0,0,0,.55); }
+  .invert .ghost{ -webkit-text-stroke:1px rgba(0,0,0,.08); }
+  .case-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:44px; perspective:1200px; }
+  .case-card{
+    background:var(--white); border:1.5px solid #000;
+    border-radius:var(--radius); padding:28px;
+    display:flex; flex-direction:column; gap:14px;
+    box-shadow:6px 6px 0 #000;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .case-card:hover{ box-shadow:10px 10px 0 #000; }
+  .case-tag{
+    align-self:flex-start;
+    font-size:.66rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:#fff; background:#000;
+    padding:5px 12px; border-radius:999px;
+  }
+  .case-card h3{ font-size:1.06rem; }
+  .case-card > p{ color:rgba(0,0,0,.55); font-size:.9rem; flex-grow:1; }
+  .case-metrics{ display:flex; gap:26px; }
+  .case-metrics b{
+    display:block; font-size:1.9rem; font-weight:900; color:#000;
+    font-variant-numeric:tabular-nums; letter-spacing:-.03em; line-height:1.1;
+  }
+  .case-metrics em{ font-style:normal; font-size:.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:rgba(0,0,0,.45); }
+  .case-bar{ height:5px; border-radius:999px; background:rgba(0,0,0,.12); overflow:hidden; }
+  .case-bar i{
+    display:block; height:100%; width:0; background:#000; border-radius:999px;
+    transition:width 1.4s var(--ease) .4s;
+  }
+  .case-card.show .case-bar i{ width:var(--w); }
+  .case-note{ margin-top:20px; font-size:.78rem; color:rgba(0,0,0,.45); }
+
+  /* ============================================================
+     EQUAZIONE CINETICA — tre righe giganti che scorrono
+     in direzioni opposte mentre scrolli. La formula del brand.
+     ============================================================ */
+  .kinetic{
+    padding:130px 0; overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .kin-line{
+    display:flex; align-items:center; gap:3vw;
+    white-space:nowrap;
+    font-size:clamp(2.4rem, 8vw, 6.5rem);
+    font-weight:900; text-transform:uppercase;
+    letter-spacing:-.04em; line-height:1.12;
+    will-change:transform;
+    padding:6px 0;
+  }
+  .kin-line small{
+    font-size:.16em; font-weight:700; letter-spacing:.24em;
+    color:var(--text-dim); align-self:center;
+    border:1px solid var(--line-strong); border-radius:999px;
+    padding:.6em 1.2em; white-space:nowrap;
+  }
+  .kin-line .ast{ font-size:.8em; -webkit-text-stroke:0; color:var(--white); }
+  .kin-line .arrow{ font-weight:300; }
+
+  /* ============================================================
+     SPOTLIGHT — la frase nascosta nel buio.
+     Si legge solo dove punti il cursore: la visibilità
+     è esattamente il mestiere di REXOAI.
+     ============================================================ */
+  .spot{
+    padding:160px 0; background:#000;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    position:relative; overflow:hidden;
+  }
+  .spot-stage{ position:relative; text-align:center; }
+  .spot-ghost, .spot-reveal{
+    font-size:clamp(2.6rem, 8.5vw, 7rem);
+    font-weight:900; text-transform:uppercase;
+    letter-spacing:-.04em; line-height:1.02;
+    user-select:none;
+  }
+  .spot-ghost{ color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.10); }
+  .spot-reveal{
+    position:absolute; inset:0; color:var(--white);
+    -webkit-mask-image:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%), #000 35%, transparent 72%);
+    mask-image:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%), #000 35%, transparent 72%);
+  }
+  .spot-caption{
+    margin-top:54px; text-align:center;
+    font-size:.74rem; font-weight:700; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--text-dim);
+  }
+
+  /* ---------- Testimonianze ---------- */
+  .testi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:44px; perspective:1200px; }
+  .testi-card{
+    background:var(--bg-card); border:1px solid var(--line);
+    border-radius:var(--radius); padding:28px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .testi-card:hover{ border-color:var(--line-strong); box-shadow:0 24px 50px rgba(0,0,0,.5); }
+  .testi-card blockquote{ font-size:.96rem; color:var(--text); }
+  .testi-card blockquote::before{ content:"“"; color:var(--white); font-size:1.6rem; line-height:0; margin-right:4px; }
+  .testi-who{ font-size:.84rem; color:var(--text-dim); }
+  .testi-who b{ color:var(--text); display:block; }
+
+  /* ---------- CTA finale + form ---------- */
+  .contatti{ background:linear-gradient(180deg, var(--bg-raise), var(--bg)); }
+  .cta-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; perspective:1200px; }
+  .contatti h2{ font-size:clamp(2rem, 5vw, 3.6rem); }
+  form{
+    background:var(--bg-card); border:1px solid var(--line);
+    border-radius:var(--radius); padding:34px;
+    display:grid; gap:16px;
+  }
+  label{ font-size:.74rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dim); display:grid; gap:7px; }
+  input, textarea{
+    font-family:inherit; font-size:.95rem; color:var(--text);
+    background:var(--bg-raise); border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; width:100%;
+  }
+  input:focus, textarea:focus{ outline:2px solid var(--white); outline-offset:0; border-color:transparent; }
+  textarea{ resize:vertical; min-height:110px; }
+  .form-msg{ font-size:.88rem; color:var(--white); display:none; }
+
+  /* ---------- Footer con wordmark gigante ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:48px 0 0; font-size:.84rem; color:var(--text-dim);
+    overflow:hidden;
+  }
+  .foot{ display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; padding-bottom:36px; }
+  .foot-social{ display:flex; gap:18px; font-size:.76rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; }
+  .foot-social a:hover{ color:var(--white); }
+  .foot-legal{
+    display:flex; gap:8px 22px; flex-wrap:wrap;
+    padding-bottom:30px; font-size:.76rem;
+    border-top:1px solid var(--line); padding-top:22px;
+  }
+  .foot-legal a{ text-decoration:underline; text-underline-offset:3px; }
+  .foot-legal a:hover{ color:var(--white); }
+  .foot-mark{
+    display:block; text-align:center;
+    font-size:clamp(4rem, 17vw, 14rem); font-weight:900;
+    text-transform:uppercase; letter-spacing:-.05em; line-height:.78;
+    color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,.22);
+    user-select:none;
+    transform:translateY(14%);
+    transition:color .5s ease;
+  }
+  .foot-mark:hover{ color:var(--white); }
+  .foot-mark b{ -webkit-text-stroke:0; color:var(--white); font-size:.25em; vertical-align:super; }
+
+  /* ---------- Responsive / smartphone ---------- */
+  @media (max-width: 880px){
+    section{ padding:64px 0; scroll-margin-top:72px; }
+    .nav-links{ display:none; }
+    .nav-burger{ display:flex; }
+    .mobile-menu{
+      display:flex; flex-direction:column;
+      position:fixed; top:70px; left:0; right:0; bottom:0; z-index:49;
+      background:rgba(7,7,7,.97); backdrop-filter:blur(10px);
+      padding:26px 6% 40px; overflow-y:auto;
+      transform:translateY(-110%); transition:transform .45s var(--ease);
+    }
+    .mobile-menu.open{ transform:none; }
+    .mobile-menu a{
+      font-size:1.5rem; font-weight:800; text-transform:uppercase;
+      letter-spacing:-.01em; padding:16px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .mobile-menu a.btn{
+      font-size:.85rem; text-align:center; border-bottom:none;
+      margin-top:26px; padding:15px 24px;
+    }
+    .hero{ padding:54px 0 44px; }
+    .hero h1{ font-size:clamp(2.2rem, 11.5vw, 3.4rem); margin-bottom:26px; }
+    .hero-sub, .cta-grid{ grid-template-columns:1fr; gap:38px; }
+    .hero-cta{ flex-direction:column; align-items:stretch; }
+    .hero-cta .btn{ text-align:center; padding:15px 24px; }
+    .prob-grid, .testi-grid, .case-grid{ grid-template-columns:1fr; }
+    .serv-grid{ grid-template-columns:1fr; }
+    .step{ grid-template-columns:58px 1fr; gap:14px; }
+    .step-num{ font-size:1.5rem; }
+    .scene{ height:340px; }
+    .scene-pivot{ width:240px; height:290px; transform:scale(.84); }
+    .panel{ width:240px; height:50px; font-size:.74rem; }
+    .ghost{ display:none; }
+    .manifesto{ padding:84px 0 50px; }
+    .manifesto p{ max-width:none; }
+    .kinetic{ padding:70px 0; }
+    .kin-line{ font-size:clamp(1.8rem, 9.5vw, 3rem); gap:5vw; }
+    .kin-line small{ display:none; }
+    .spot{ padding:96px 0; }
+    .spot-caption{ margin-top:36px; }
+    form{ padding:24px; }
+    form .btn{ width:100%; padding:15px 24px; }
+    .foot{ flex-direction:column; align-items:flex-start; gap:24px; }
+    .foot-legal{ gap:10px 18px; }
+    .foot-mark{ -webkit-text-stroke-width:1px; }
+    .marquee{ padding:14px 0; }
+  }
+  @media (max-width: 560px){
+    .nav .btn{ display:none; } /* su schermi piccoli la CTA vive nel menu */
+    .intro-word{ font-size:clamp(2.4rem, 15vw, 4rem); }
+    h2{ font-size:clamp(1.5rem, 7.5vw, 2rem); }
+    .case-metrics b{ font-size:1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sipario d'apertura -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-word">
+    <span class="intro-outline">RexoAI®</span>
+    <span class="intro-fill" id="intro-fill">RexoAI®</span>
+  </div>
+  <div class="intro-meta"><span>Web · Social · AI · ADV</span><b id="intro-count">0%</b></div>
+</div>
+
+<div id="progress"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ================= NAVBAR ================= -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo">RexoAI<sup>®</sup></a>
+    <nav class="nav-links">
+      <a href="#problema">Problema</a>
+      <a href="#metodo">Metodo</a>
+      <a href="#servizi">Servizi</a>
+      <a href="#case">Case studies</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#contatti" class="btn" data-magnet>Parla con noi</a>
+      <button class="nav-burger" id="nav-burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile">
+  <a href="#problema">Problema</a>
+  <a href="#metodo">Metodo</a>
+  <a href="#servizi">Servizi</a>
+  <a href="#case">Case studies</a>
+  <a href="#testimonianze">Clienti</a>
+  <a href="#contatti" class="btn">Parla con noi</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <h1 class="display">
+      <span class="line"><span class="outline">I brand fermi</span></span>
+      <span class="line"><span>non vendono.</span></span>
+      <span class="line"><span class="outline">Muoviamo il tuo.</span></span>
+    </h1>
+    <div class="hero-sub">
+      <div class="fade">
+        <p class="lead">RexoAI costruisce siti che convertono, gestisce i tuoi social, genera contenuti con l'AI e porta clienti con Google Ads e Meta Ads. Un solo partner, una sola strategia, risultati che si misurano.</p>
+        <div class="hero-cta">
+          <a href="#contatti" class="btn" data-magnet>Richiedi un'analisi gratuita</a>
+          <a href="#case" class="btn btn-ghost" data-magnet>Guarda i risultati</a>
+        </div>
+      </div>
+      <div class="scene fade" aria-hidden="true">
+        <div class="scene-stage">
+          <div class="scene-pivot">
+            <div class="panel"><span>Sito web</span></div>
+            <div class="panel"><span>Social media</span></div>
+            <div class="panel"><span>Contenuti AI</span></div>
+            <div class="panel"><span>Google Ads</span></div>
+            <div class="panel"><span>Meta Ads</span></div>
+          </div>
+        </div>
+        <div class="scene-caption">canali sparsi → <b>strategia coordinata</b> · un solo partner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Fascia di brand invertita -->
+<div class="marquee inv" aria-hidden="true">
+  <div class="marquee-track">
+    <span>RexoAI<i> ✳</i></span><span>Siti web<i> ✳</i></span><span>Social media<i> ✳</i></span><span>Contenuti AI<i> ✳</i></span><span>Google Ads<i> ✳</i></span><span>Meta Ads<i> ✳</i></span>
+    <span>RexoAI<i> ✳</i></span><span>Siti web<i> ✳</i></span><span>Social media<i> ✳</i></span><span>Contenuti AI<i> ✳</i></span><span>Google Ads<i> ✳</i></span><span>Meta Ads<i> ✳</i></span>
+  </div>
+</div>
+
+<!-- ================= MANIFESTO (le parole si accendono allo scroll) ================= -->
+<section class="manifesto" id="manifesto">
+  <div class="wrap">
+    <span class="eyebrow"><b>00</b> / Manifesto</span>
+    <p id="manifesto-text">Non facciamo marketing per riempire calendari. Facciamo marketing per vendere. Ogni sito, ogni post, ogni euro di adv ha un solo compito: portare clienti al tuo brand. Il resto è rumore.</p>
+  </div>
+  <div class="marquee adj" aria-hidden="true" style="margin-top:60px;">
+    <div class="marquee-track">
+      <span>Diretti<i> ✳</i></span><span>Misurabili<i> ✳</i></span><span>Concreti<i> ✳</i></span><span>Veloci<i> ✳</i></span><span>Zero fuffa<i> ✳</i></span>
+      <span>Diretti<i> ✳</i></span><span>Misurabili<i> ✳</i></span><span>Concreti<i> ✳</i></span><span>Veloci<i> ✳</i></span><span>Zero fuffa<i> ✳</i></span>
+      <span>Diretti<i> ✳</i></span><span>Misurabili<i> ✳</i></span><span>Concreti<i> ✳</i></span><span>Veloci<i> ✳</i></span><span>Zero fuffa<i> ✳</i></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROBLEMA ================= -->
+<section class="problema" id="problema">
+  <span class="ghost" aria-hidden="true">01</span>
+  <div class="wrap">
+    <div class="fade">
+      <span class="eyebrow"><b>01</b> / Il problema</span>
+      <h2>Ogni canale per conto suo<br>non è una strategia.</h2>
+      <p class="lead">Sito fermo da anni, social aggiornati quando avanza tempo, campagne che bruciano budget senza che nessuno sappia dire cosa rendono. Suona familiare?</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card fade" data-tilt>
+        <strong>Il sito non porta clienti</strong>
+        <p>È online, ma è lento, non si trova su Google e nessuno compila il form. Un sito che non converte è un costo, non un investimento.</p>
+      </div>
+      <div class="prob-card fade" data-tilt>
+        <strong>Budget adv bruciato</strong>
+        <p>Campagne lanciate senza strategia, costi per click che salgono e zero tracciamento. Se non sai quanto rende un euro speso, lo stai perdendo.</p>
+      </div>
+      <div class="prob-card fade" data-tilt>
+        <strong>Contenuti? Non c'è tempo</strong>
+        <p>Pubblicare con costanza richiede ore che il tuo team non ha. Risultato: profili fermi, e chi ti cerca trova il vuoto — o i concorrenti.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COME LAVORIAMO ================= -->
+<section id="metodo">
+  <span class="ghost" aria-hidden="true">02</span>
+  <div class="wrap">
+    <div class="fade">
+      <span class="eyebrow"><b>02</b> / Il metodo</span>
+      <h2>Come lavoriamo</h2>
+      <p class="lead">Quattro fasi, scadenze chiare, nessuna sorpresa in fattura.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade">
+        <div class="step-num">01</div>
+        <div>
+          <h3>Audit di partenza</h3>
+          <p>Analizziamo sito, social e campagne attive: dove perdi clienti, dove sprechi budget, cosa fanno meglio i tuoi concorrenti diretti.</p>
+          <small>Durata: 1 settimana — gratuito</small>
+        </div>
+      </div>
+      <div class="step fade">
+        <div class="step-num">02</div>
+        <div>
+          <h3>Strategia con numeri</h3>
+          <p>Ricevi un piano con obiettivi, canali, budget consigliato e KPI: cosa facciamo, quanto costa, cosa ti aspetti di ottenere e quando. Decidi tu se ha senso.</p>
+          <small>Durata: 1 settimana</small>
+        </div>
+      </div>
+      <div class="step fade">
+        <div class="step-num">03</div>
+        <div>
+          <h3>Esecuzione</h3>
+          <p>Sito online, piano editoriale attivo, campagne live. I contenuti li genera l'AI, li supervisiona una persona: velocità senza scivoloni sul tono del brand.</p>
+          <small>Durata: 2–6 settimane a seconda del progetto</small>
+        </div>
+      </div>
+      <div class="step fade">
+        <div class="step-num">04</div>
+        <div>
+          <h3>Ottimizzazione continua</h3>
+          <p>Report mensile con i numeri che contano: lead, vendite, costo per acquisizione. Tagliamo ciò che non rende, scaliamo ciò che funziona.</p>
+          <small>Ogni mese, senza vincoli pluriennali</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVIZI (flip card 3D) ================= -->
+<section class="servizi" id="servizi">
+  <span class="ghost" aria-hidden="true">03</span>
+  <div class="wrap">
+    <div class="fade">
+      <span class="eyebrow"><b>03</b> / Servizi</span>
+      <h2>Cosa facciamo</h2>
+      <p class="lead">Quattro aree, un'unica regia. Gira le card per vedere cosa ottieni, in concreto.</p>
+    </div>
+    <div class="serv-grid">
+
+      <div class="flip fade" tabindex="0" aria-label="Siti web — gira per i dettagli">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <h3><b>Area 01</b>Siti web</h3>
+            <p>Siti veloci, trovabili su Google e progettati per una cosa sola: trasformare chi entra in un contatto o in una vendita.</p>
+            <span class="flip-hint">Passa sopra o tocca →</span>
+          </div>
+          <div class="flip-face flip-back">
+            <h4>Cosa ottieni</h4>
+            <ul>
+              <li>Design su misura, niente template riciclati</li>
+              <li>Ottimizzazione SEO e velocità di caricamento</li>
+              <li>Landing page dedicate alle campagne</li>
+              <li>Tracciamento di form, chiamate e vendite</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip fade" tabindex="0" aria-label="Social media management — gira per i dettagli">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <h3><b>Area 02</b>Social media</h3>
+            <p>Piano editoriale, pubblicazione costante e community gestita. I tuoi profili lavorano anche quando tu non ci pensi.</p>
+            <span class="flip-hint">Passa sopra o tocca →</span>
+          </div>
+          <div class="flip-face flip-back">
+            <h4>Cosa ottieni</h4>
+            <ul>
+              <li>Piano editoriale mensile approvato da te</li>
+              <li>Post, caroselli e reel pronti da pubblicare</li>
+              <li>Risposte a commenti e messaggi</li>
+              <li>Report con crescita e contenuti migliori</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip fade" tabindex="0" aria-label="Contenuti generati con AI — gira per i dettagli">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <h3><b>Area 03</b>Contenuti AI</h3>
+            <p>Testi, visual e video prodotti con l'AI e rifiniti da persone. Il volume di una redazione, al costo di una frazione.</p>
+            <span class="flip-hint">Passa sopra o tocca →</span>
+          </div>
+          <div class="flip-face flip-back">
+            <h4>Cosa ottieni</h4>
+            <ul>
+              <li>Articoli blog ottimizzati SEO ogni mese</li>
+              <li>Visual e creatività coerenti col brand</li>
+              <li>Video brevi per reel e campagne</li>
+              <li>Revisione umana su ogni contenuto</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip fade" tabindex="0" aria-label="Advertising Google Ads e Meta Ads — gira per i dettagli">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <h3><b>Area 04</b>ADV — Google &amp; Meta</h3>
+            <p>Campagne che portano richieste e vendite, non solo click. Su Google intercetti chi cerca, su Meta crei la domanda.</p>
+            <span class="flip-hint">Passa sopra o tocca →</span>
+          </div>
+          <div class="flip-face flip-back">
+            <h4>Cosa ottieni</h4>
+            <ul>
+              <li>Campagne Search, Shopping e Performance Max</li>
+              <li>Creatività e audience test su Facebook e Instagram</li>
+              <li>Tracciamento conversioni configurato a regola d'arte</li>
+              <li>Report mensile: spesa, lead, costo per acquisizione</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASE STUDIES (sezione invertita) ================= -->
+<section class="invert" id="case">
+  <span class="ghost" aria-hidden="true">04</span>
+  <div class="wrap">
+    <div class="fade">
+      <span class="eyebrow"><b>04</b> / Case studies</span>
+      <h2>I numeri salgono.<br>Letteralmente.</h2>
+      <p class="lead">Tre progetti, tre settori diversi, stesso metodo. I contatori qui sotto partono da zero quando arrivi — come sono partiti i clienti.</p>
+    </div>
+    <div class="case-grid">
+
+      <article class="case-card fade" data-tilt style="--w:84%">
+        <span class="case-tag">E-commerce · Arredamento</span>
+        <h3>ROAS da 1,8x a 4,2x in 5 mesi con Meta Ads</h3>
+        <p>Creatività rifatte da zero, audience ristrutturate e landing page dedicate per ogni linea di prodotto. Stesso budget, risultato più che raddoppiato.</p>
+        <div class="case-metrics">
+          <div><b><span class="num" data-val="4.2" data-dec="1">0</span>x</b><em>ROAS finale</em></div>
+          <div><b>+<span class="num" data-val="133">0</span>%</b><em>vendite online</em></div>
+        </div>
+        <div class="case-bar"><i></i></div>
+      </article>
+
+      <article class="case-card fade" data-tilt style="--w:72%">
+        <span class="case-tag">Servizi locali · Studio dentistico</span>
+        <h3>Triplicate le richieste di prima visita con Google Ads</h3>
+        <p>Nuovo sito con prenotazione online, campagne Search sulle ricerche locali e tracciamento delle chiamate. Il costo per ogni nuovo paziente è sceso quasi della metà.</p>
+        <div class="case-metrics">
+          <div><b><span class="num" data-val="3" data-dec="0">0</span>x</b><em>richieste di visita</em></div>
+          <div><b>−<span class="num" data-val="45">0</span>%</b><em>costo per lead</em></div>
+        </div>
+        <div class="case-bar"><i></i></div>
+      </article>
+
+      <article class="case-card fade" data-tilt style="--w:64%">
+        <span class="case-tag">Food &amp; wine · Cantina</span>
+        <h3>Da profili fermi a community attiva con contenuti AI</h3>
+        <p>Piano editoriale costante con contenuti generati dall'AI e supervisionati: reel, caroselli e blog. Il tempo interno dedicato ai social è sceso a zero.</p>
+        <div class="case-metrics">
+          <div><b>+<span class="num" data-val="11500" data-sep="1">0</span></b><em>follower in 8 mesi</em></div>
+          <div><b><span class="num" data-val="8" data-dec="0">0</span>h</b><em>risparmiate a settimana</em></div>
+        </div>
+        <div class="case-bar"><i></i></div>
+      </article>
+
+    </div>
+    <p class="case-note fade">I dati si riferiscono a singoli progetti: ogni audit iniziale stima cosa è realistico ottenere nel tuo caso.</p>
+  </div>
+</section>
+
+<!-- ================= EQUAZIONE CINETICA ================= -->
+<!-- Tre righe giganti che scorrono in direzioni opposte allo scroll:
+     la formula del lavoro di RexoAI, in movimento. -->
+<section class="kinetic" aria-label="Tu porti il prodotto, noi la strategia, il mercato risponde">
+  <div class="kin-line" data-drift="-120">
+    <span class="outline">Tu porti</span><small>il prodotto</small><span class="outline">Tu porti</span><small>il prodotto</small><span class="outline">Tu porti</span>
+  </div>
+  <div class="kin-line" data-drift="120" style="justify-content:flex-end;">
+    <small>la strategia</small><span>Noi mettiamo</span><i class="ast">✳</i><small>la strategia</small><span>Noi mettiamo</span><i class="ast">✳</i>
+  </div>
+  <div class="kin-line" data-drift="-120">
+    <span class="outline">Il mercato risponde</span><span class="arrow">→</span><small>risultati misurati</small><span class="outline">Il mercato risponde</span><span class="arrow">→</span>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIANZE ================= -->
+<section class="problema" id="testimonianze" style="border-top:none;">
+  <span class="ghost" aria-hidden="true">05</span>
+  <div class="wrap">
+    <div class="fade">
+      <span class="eyebrow"><b>05</b> / Clienti</span>
+      <h2>Cosa dicono di noi</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade" data-tilt>
+        <blockquote>[Testimonianza placeholder — risultato concreto ottenuto, es. vendite o richieste in più.]</blockquote>
+        <div class="testi-who"><b>Nome Cognome</b>Ruolo, Azienda</div>
+      </div>
+      <div class="testi-card fade" data-tilt>
+        <blockquote>[Testimonianza placeholder — esperienza di lavoro con RexoAI, tempi e chiarezza del processo.]</blockquote>
+        <div class="testi-who"><b>Nome Cognome</b>Ruolo, Azienda</div>
+      </div>
+      <div class="testi-card fade" data-tilt>
+        <blockquote>[Testimonianza placeholder — impatto sul business dopo i primi mesi di collaborazione.]</blockquote>
+        <div class="testi-who"><b>Nome Cognome</b>Ruolo, Azienda</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPOTLIGHT ================= -->
+<!-- La frase si legge solo dove punti il cursore.
+     La visibilità è esattamente il mestiere di RexoAI. -->
+<section class="spot" aria-label="Se non ti vedono, non esisti">
+  <div class="wrap">
+    <div class="spot-stage" id="spot-stage">
+      <div class="spot-ghost">Se non ti vedono,<br>non esisti.</div>
+      <div class="spot-reveal" id="spot-reveal" aria-hidden="true">Se non ti vedono,<br>non esisti.</div>
+    </div>
+    <p class="spot-caption">Muovi il cursore <i class="ast" style="color:var(--text)">✳</i> Noi accendiamo la luce sul tuo brand</p>
+  </div>
+</section>
+
+<!-- Fascia di brand in outline -->
+<div class="marquee hollow" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Parliamone<i> ✳</i></span><span>Audit gratuito<i> ✳</i></span><span>Risposta in 24h<i> ✳</i></span><span>Parliamone<i> ✳</i></span><span>Audit gratuito<i> ✳</i></span><span>Risposta in 24h<i> ✳</i></span>
+    <span>Parliamone<i> ✳</i></span><span>Audit gratuito<i> ✳</i></span><span>Risposta in 24h<i> ✳</i></span><span>Parliamone<i> ✳</i></span><span>Audit gratuito<i> ✳</i></span><span>Risposta in 24h<i> ✳</i></span>
+  </div>
+</div>
+
+<!-- ================= CTA FINALE + FORM ================= -->
+<section class="contatti" id="contatti">
+  <div class="wrap cta-grid">
+    <div class="fade">
+      <span class="eyebrow"><b>06</b> / Contatti</span>
+      <h2 class="display"><span class="outline">Muoviamo</span><br>il tuo brand?</h2>
+      <p class="lead">Compila il form: ti rispondiamo entro 24 ore lavorative con una prima valutazione di sito, social e campagne. L'audit iniziale è gratuito e senza impegno — se non possiamo aiutarti, te lo diciamo.</p>
+    </div>
+    <form id="contact-form" class="fade" novalidate>
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label>Nome e cognome
+        <input type="text" name="nome" required autocomplete="name">
+      </label>
+      <label>Email aziendale
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label>Azienda
+        <input type="text" name="azienda" autocomplete="organization">
+      </label>
+      <label>Di cosa hai bisogno?
+        <textarea name="messaggio" required placeholder="Es. rifare il sito, partire con Meta Ads, gestire i social, produrre contenuti…"></textarea>
+      </label>
+      <button type="submit" class="btn" data-magnet>Richiedi l'audit gratuito</button>
+      <p class="form-msg" id="form-msg">Richiesta inviata. Ti rispondiamo entro 24 ore lavorative.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong style="color:var(--text)">RexoAI</strong><br>
+      C.F. BZNGNN04E23C743H — P.IVA 05743280280<br>
+      Via Julia 1/C, 35018 San Martino di Lupari (PD)<br>
+      © <span id="year"></span> RexoAI. Tutti i diritti riservati.
+    </div>
+    <nav class="foot-social" aria-label="Social">
+      <a href="https://www.linkedin.com/company/rexoai" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/rexoai.it" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+  </div>
+  <div class="wrap foot-legal" aria-label="Note legali">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="cookie-policy.html">Cookie Policy</a>
+    <a href="termini-condizioni.html">Termini e Condizioni</a>
+    <a href="#" data-cookie-prefs>Gestisci cookie</a>
+  </div>
+  <span class="foot-mark" aria-hidden="true">RexoAI<b>®</b></span>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---------- Menu mobile (hamburger) ----------
+  const burger = document.getElementById('nav-burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  burger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu');
+    document.documentElement.classList.toggle('lock', open);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.documentElement.classList.remove('lock');
+    });
+  });
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // ============================================================
+  // INTRO — contatore 0→100%, il wordmark si riempie,
+  // poi il sipario si alza.
+  // ============================================================
+  const intro = document.getElementById('intro');
+  if (reducedMotion) {
+    intro.remove();
+  } else {
+    document.documentElement.classList.add('lock');
+    const fill = document.getElementById('intro-fill');
+    const count = document.getElementById('intro-count');
+    let p = 0;
+    const iv = setInterval(() => {
+      p = Math.min(p + 4 + Math.ceil(Math.random() * 8), 100);
+      count.textContent = p + '%';
+      fill.style.clipPath = `inset(0 ${100 - p}% 0 0)`;
+      if (p === 100) {
+        clearInterval(iv);
+        setTimeout(() => {
+          intro.classList.add('done');
+          document.documentElement.classList.remove('lock');
+          setTimeout(() => intro.remove(), 900);
+        }, 220);
+      }
+    }, 52);
+  }
+
+  // ============================================================
+  // MANIFESTO — divide il testo in parole; si accendono
+  // progressivamente nello scroll handler unificato.
+  // ============================================================
+  const manifestoP = document.getElementById('manifesto-text');
+  const manifestoWords = [];
+  if (manifestoP) {
+    const words = manifestoP.textContent.trim().split(/\s+/);
+    manifestoP.textContent = '';
+    words.forEach((w, i) => {
+      const s = document.createElement('span');
+      s.className = 'w';
+      s.textContent = w;
+      manifestoP.appendChild(s);
+      manifestoWords.push(s);
+      if (i < words.length - 1) manifestoP.appendChild(document.createTextNode(' '));
+    });
+  }
+
+  // ============================================================
+  // SCROLL UNIFICATO — barra, parallasse, manifesto,
+  // righe cinetiche. Un solo rAF per tutto.
+  // ============================================================
+  const progress = document.getElementById('progress');
+  const stage = document.querySelector('.scene-stage');
+  const kinLines = document.querySelectorAll('.kin-line');
+  const kinSection = document.querySelector('.kinetic');
+  let ticking = false;
+
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const h = document.documentElement;
+      const vh = innerHeight;
+
+      // Barra di avanzamento
+      const max = h.scrollHeight - h.clientHeight;
+      progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+
+      if (!reducedMotion) {
+        // Parallasse leggera sulla scena del hero
+        if (stage) {
+          const y = Math.min(scrollY, 600);
+          stage.style.transform = `translateY(${y * -0.1}px)`;
+        }
+        // Manifesto: parole che si accendono
+        if (manifestoWords.length) {
+          const r = manifestoP.getBoundingClientRect();
+          const prog = Math.min(Math.max((vh * 0.85 - r.top) / (r.height + vh * 0.45), 0), 1);
+          const n = Math.floor(prog * manifestoWords.length);
+          manifestoWords.forEach((w, i) => w.classList.toggle('on', i < n));
+        }
+        // Righe cinetiche: scorrono in direzioni opposte
+        if (kinSection) {
+          const r = kinSection.getBoundingClientRect();
+          const prog = Math.min(Math.max(1 - r.top / vh, 0), 1.6);
+          kinLines.forEach(line => {
+            const drift = parseFloat(line.dataset.drift || 0);
+            line.style.transform = `translateX(${(prog - 0.8) * drift}px)`;
+          });
+        }
+      }
+      ticking = false;
+    });
+  }
+  document.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  // ============================================================
+  // SPOTLIGHT — la frase si legge solo sotto la luce.
+  // Mouse su desktop, orbita automatica su touch.
+  // ============================================================
+  const spotStage = document.getElementById('spot-stage');
+  const spotReveal = document.getElementById('spot-reveal');
+  if (spotStage && !reducedMotion) {
+    if (finePointer) {
+      spotStage.addEventListener('pointermove', (e) => {
+        const r = spotStage.getBoundingClientRect();
+        spotReveal.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        spotReveal.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    } else {
+      // Su touch la luce orbita da sola
+      let t = 0;
+      (function orbit(){
+        t += 0.012;
+        const r = spotStage.getBoundingClientRect();
+        spotReveal.style.setProperty('--mx', (r.width/2 + Math.cos(t) * r.width * 0.32) + 'px');
+        spotReveal.style.setProperty('--my', (r.height/2 + Math.sin(t * 1.4) * r.height * 0.34) + 'px');
+        requestAnimationFrame(orbit);
+      })();
+    }
+  }
+
+  // ============================================================
+  // CURSORE CUSTOM (mix-blend: difference)
+  // ============================================================
+  if (!reducedMotion && finePointer) {
+    document.documentElement.classList.add('has-cursor');
+    const dot = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+    addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; });
+    (function loop(){
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      dot.style.transform  = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    })();
+    document.addEventListener('pointerover', e => {
+      if (e.target.closest('a, button, .flip, input, textarea')) ring.classList.add('grow');
+    });
+    document.addEventListener('pointerout', e => {
+      if (e.target.closest('a, button, .flip, input, textarea')) ring.classList.remove('grow');
+    });
+  } else {
+    document.getElementById('cursor').remove();
+    document.getElementById('cursor-ring').remove();
+  }
+
+  // ============================================================
+  // BOTTONI MAGNETICI — si spostano leggermente verso il cursore
+  // ============================================================
+  if (!reducedMotion && finePointer) {
+    document.querySelectorAll('[data-magnet]').forEach(btn => {
+      btn.addEventListener('pointermove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width/2);
+        const dy = e.clientY - (r.top + r.height/2);
+        btn.style.transform = `translate(${dx * 0.18}px, ${dy * 0.3}px)`;
+      });
+      btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+    });
+  }
+
+  // ---------- Contatori animati dei case study ----------
+  function formatNum(value, dec, sep){
+    if (sep) return Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return value.toFixed(dec).replace('.', ',');
+  }
+  function animateCount(el){
+    const val = parseFloat(el.dataset.val);
+    const dec = parseInt(el.dataset.dec || 0, 10);
+    const sep = el.dataset.sep === '1';
+    if (reducedMotion){ el.textContent = formatNum(val, dec, sep); return; }
+    const dur = 1500, t0 = performance.now();
+    function tick(t){
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = formatNum(val * eased, dec, sep);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // ---------- Reveal 3D allo scroll ----------
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        entry.target.querySelectorAll('.num').forEach(animateCount);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+  // ---------- Tilt 3D sulle card ----------
+  if (!reducedMotion && finePointer) {
+    const MAX_DEG = 7;
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform =
+          `perspective(900px) rotateY(${px * MAX_DEG * 2}deg) rotateX(${ -py * MAX_DEG * 2}deg) translateZ(6px)`;
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  // ---------- Flip card servizi su touch ----------
+  if (!window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.flip').forEach(card => {
+      card.addEventListener('click', () => card.classList.toggle('flipped'));
+    });
+  }
+
+  // ---------- Form: invio reale a info@rexoai.it ----------
+  // Invio tramite FormSubmit (https://formsubmit.co): al primo invio
+  // arriverà a info@rexoai.it una mail di conferma per attivare il servizio.
+  // Se l'invio fallisce (offline, servizio non raggiungibile), il sito
+  // apre il client di posta dell'utente già indirizzato a info@rexoai.it.
+  const contactForm = document.getElementById('contact-form');
+  const formMsg = document.getElementById('form-msg');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+    const data = Object.fromEntries(new FormData(contactForm).entries());
+    if (data._honey) return; // anti-spam: i bot compilano il campo nascosto
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const original = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Invio in corso…';
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/info@rexoai.it', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          'Nome e cognome': data.nome,
+          'Email': data.email,
+          'Azienda': data.azienda || '-',
+          'Messaggio': data.messaggio,
+          _subject: 'Nuova richiesta dal sito RexoAI',
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
+      if (!res.ok) throw new Error('send failed');
+      formMsg.textContent = 'Richiesta inviata. Ti rispondiamo entro 24 ore lavorative.';
+      formMsg.style.display = 'block';
+      contactForm.reset();
+    } catch (err) {
+      // Fallback: apre il programma di posta dell'utente
+      const body = encodeURIComponent(
+        'Nome: ' + data.nome + '\nEmail: ' + data.email +
+        '\nAzienda: ' + (data.azienda || '-') + '\n\n' + data.messaggio
+      );
+      window.location.href = 'mailto:info@rexoai.it?subject=' +
+        encodeURIComponent('Richiesta dal sito RexoAI') + '&body=' + body;
+      formMsg.textContent = "Si è aperto il tuo programma di posta per completare l'invio a info@rexoai.it.";
+      formMsg.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = original;
+    }
+  });
+</script>
+<script src="cookie-consent.js"></script>
+</body>
+</html>

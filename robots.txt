@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rexoai.it/sitemap.xml
